@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Letter For You 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink-50: #FBEAF0;
+      --pink-100: #F4C0D1;
+      --pink-200: #ED93B1;
+      --pink-400: #D4537E;
+      --pink-600: #993556;
+      --pink-800: #72243E;
+      --green-100: #C0DD97;
+      --green-200: #97C459;
+      --green-800: #27500A;
+      --green-bg: #EAF3DE;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fdf6f9;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* Soft background pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(212,83,126,0.07) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(244,192,209,0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page { position: relative; z-index: 1; width: 100%; max-width: 600px; }
+
+    /* Top label */
+    .top-label {
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--pink-400);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    /* Envelope trigger */
+    #envelope-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 2rem;
+      padding: 14px 24px;
+      background: white;
+      border: 1.5px solid var(--pink-100);
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--pink-600);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 12px rgba(212,83,126,0.08);
+    }
+    #envelope-btn:hover {
+      background: var(--pink-50);
+      border-color: var(--pink-200);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(212,83,126,0.14);
+    }
+    #envelope-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    /* Letter card */
+    .letter-card {
+      background: white;
+      border-radius: 20px;
+      border: 1px solid var(--pink-100);
+      padding: 2.5rem 2.5rem 2rem;
+      display: none;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(212,83,126,0.08);
+    }
+    .letter-card.open {
+      display: block;
+      animation: slideIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Decorative top border */
+    .letter-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink-100), var(--pink-400), var(--pink-200), var(--pink-100));
+    }
+
+    /* Watermark */
+    .watermark {
+      position: absolute;
+      bottom: 60px; right: 30px;
+      font-family: 'Playfair Display', serif;
+      font-size: 80px;
+      color: rgba(212,83,126,0.04);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+
+    .letter-date {
+      text-align: right;
+      font-size: 12px;
+      color: #aaa;
+      margin-bottom: 1.75rem;
+      font-weight: 300;
+    }
+
+    .salutation {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--pink-800);
+      margin-bottom: 1.25rem;
+    }
+
+    .letter-body p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #444;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+
+    .notice-box {
+      background: var(--pink-50);
+      border-left: 3px solid var(--pink-400);
+      border-radius: 0 10px 10px 0;
+      padding: 0.85rem 1.1rem;
+      margin: 1.25rem 0;
+      font-size: 14px;
+      color: var(--pink-800);
+      line-height: 1.7;
+    }
+    .notice-box strong { font-weight: 500; }
+
+    .reasons-heading {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink-400);
+      font-weight: 500;
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .reasons { list-style: none; margin-bottom: 1.25rem; }
+    .reasons li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14.5px;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 0.6rem;
+      font-weight: 300;
+    }
+    .reasons li .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--pink-400);
+      margin-top: 9px;
+      flex-shrink: 0;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px dashed var(--pink-100);
+      margin: 1.75rem 0 1.5rem;
+    }
+
+    .closing p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: #444;
+      margin-bottom: 0.5rem;
+      font-weight: 300;
+    }
+
+    .signature {
+      margin-top: 1.25rem;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 28px;
+      color: var(--pink-600);
+    }
+
+    /* Action buttons */
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-yes {
+      flex: 1; min-width: 140px;
+      padding: 11px 20px;
+      background: var(--pink-50);
+      border: 1px solid var(--pink-200);
+      border-radius: 50px;
+      color: var(--pink-600);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-yes:hover { background: var(--pink-100); transform: translateY(-1px); }
+
+    .btn-copy {
+      flex: 1; min-width: 140px;
+      padding: 11px 20px;
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 50px;
+      color: #888;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-copy:hover { background: #f9f9f9; border-color: #ccc; }
+
+    .toast {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+      font-weight: 400;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .toast.success { background: var(--green-bg); border: 1px solid var(--green-100); color: var(--green-800); }
+    .toast.copied { background: #f5f5f5; border: 1px solid #e0e0e0; color: #666; }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      pointer-events: none;
+      font-size: 22px;
+      animation: floatHeart 1.4s ease-out forwards;
+      z-index: 999;
+    }
+    @keyframes floatHeart {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+      100% { opacity: 0; transform: translateY(-120px) rotate(20deg) scale(0.5); }
+    }
+
+    @media (max-width: 480px) {
+      .letter-card { padding: 2rem 1.5rem 1.5rem; }
+      .salutation { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <p class="top-label">A letter just for you</p>
+
+    <button id="envelope-btn" onclick="openLetter()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="3"/>
+        <path d="M2 7l10 7 10-7"/>
+      </svg>
+      Tap to open your letter 💌
+    </button>
+
+    <div class="letter-card" id="letter">
+      <div class="watermark">♡</div>
+
+      <p class="letter-date" id="dateDisplay"></p>
+
+      <p class="salutation">My dearest love,</p>
+
+      <div class="letter-body">
+        <p>I hope this reaches you in the sweetest mood, because I'm writing with a hopeful heart and the most sincere request.</p>
+
+        <p>As you may remember, I was really looking forward to the <strong>Victory party</strong> — held just right in front of our house, at the nearby resort. I know you weren't comfortable with it the last time, and I truly respect that. Your feelings and your trust in me mean more than any party ever could.</p>
+
+        <div class="notice-box">
+          The event was rescheduled and it's happening <strong>tomorrow</strong>. I am asking, once again with all my love — please give me your blessing to attend. 🌸
+        </div>
+
+        <p class="reasons-heading">Why I hope you'll say yes</p>
+
+        <ul class="reasons">
+          <li><span class="dot"></span> The venue is just in front of our house — I truly won't be far from you at all.</li>
+          <li><span class="dot"></span> I'll keep you updated the whole time — you can call or message me anytime.</li>
+          <li><span class="dot"></span> My phone stays on, always. No exceptions.</li>
+          <li><span class="dot"></span> I have nothing to hide. This is simply a celebration with familiar people.</li>
+          <li><span class="dot"></span> I will always, always prioritize coming home to you.</li>
+        </ul>
+
+        <p>I'm not asking for endless nights out or secret plans. Just one evening, a short walk away, to be part of something joyful. And through it all, my heart stays right here — with you.</p>
+      </div>
+
+      <hr class="divider">
+
+      <div class="closing">
+        <p>I love you so much, and I'm so grateful for every way you care for me. I just hope that this time, you'll find it in your heart to say yes.</p>
+        <p style="margin-top: 0.75rem;">With every bit of my love,</p>
+        <div class="signature">Your girl ♡</div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-yes" onclick="handleYes(event)">
+          💗 He said yes!
+        </button>
+        <button class="btn-copy" onclick="handleCopy()">
+          📋 Copy letter
+        </button>
+      </div>
+
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+
+  <script>
+    // Set today's date
+    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const d = new Date();
+    document.getElementById('dateDisplay').textContent =
+      `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+
+    function openLetter() {
+      document.getElementById('envelope-btn').style.display = 'none';
+      const letter = document.getElementById('letter');
+      letter.classList.add('open');
+    }
+
+    function handleYes(e) {
+      const toast = document.getElementById('toast');
+      toast.className = 'toast success';
+      toast.innerHTML = '🎉 Yay!! He said yes! Have so much fun at the Victory party! 🌸';
+      toast.style.display = 'block';
+      spawnHearts(e.clientX, e.clientY);
+    }
+
+    function handleCopy() {
+      const dateText = document.getElementById('dateDisplay').textContent;
+      const text = `${dateText}
+
+My dearest love,
+
+I hope this reaches you in the sweetest mood, because I'm writing with a hopeful heart and the most sincere request.
+
+As you may remember, I was really looking forward to the Victory party — held just right in front of our house, at the nearby resort. I know you weren't comfortable with it the last time, and I truly respect that. Your feelings and your trust in me mean more than any party ever could.
+
+The event was rescheduled and it's happening tomorrow. I am asking, once again with all my love — please give me your blessing to attend.
+
+Why I hope you'll say yes:
+• The venue is just in front of our house — I truly won't be far from you at all.
+• I'll keep you updated the whole time — you can call or message me anytime.
+• My phone stays on, always. No exceptions.
+• I have nothing to hide. This is simply a celebration with familiar people.
+• I will always, always prioritize coming home to you.
+
+I'm not asking for endless nights out or secret plans. Just one evening, a short walk away, to be part of something joyful. And through it all, my heart stays right here — with you.
+
+I love you so much, and I'm so grateful for every way you care for me. I just hope that this time, you'll find it in your heart to say yes.
+
+With every bit of my love,
+Your girl ♡`;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.className = 'toast copied';
+        toast.innerHTML = '✓ Letter copied to clipboard!';
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2500);
+      }).catch(() => {
+        alert('Could not copy automatically. Please select and copy the letter manually.');
+      });
+    }
+
+    function spawnHearts(x, y) {
+      const emojis = ['💗','💖','🌸','💓','🩷','✨'];
+      for (let i = 0; i < 10; i++) {
+        const el = document.createElement('span');
+        el.className = 'heart';
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        el.style.left = (x - 10 + (Math.random() - 0.5) * 80) + 'px';
+        el.style.top = (y - 10 + (Math.random() - 0.5) * 40) + 'px';
+        el.style.animationDelay = (i * 0.07) + 's';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1600);
+      }
+    }
+  </script>
+</body>
+</html>
