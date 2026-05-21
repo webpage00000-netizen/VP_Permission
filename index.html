@@ -300,12 +300,12 @@
 
       <p class="letter-date" id="dateDisplay"></p>
 
-      <p class="salutation">My dearest love,</p>
+      <p class="salutation">My dearest lab,</p>
 
       <div class="letter-body">
         <p>I hope this reaches you in the sweetest mood, because I'm writing with a hopeful heart and the most sincere request.</p>
 
-        <p>As you may remember, I was really looking forward to the <strong>Victory party</strong> — held just right in front of our house, at the nearby resort. I know you weren't comfortable with it the last time, and I truly respect that. Your feelings and your trust in me mean more than any party ever could.</p>
+        <p>As you may remember, I was really looking forward to the <strong>Victory party</strong> — held just right in front of our house, at the nearby resort (Laresio). I know you weren't comfortable with it the last time, and I truly respect that. Your feelings and your trust in me mean more than any party ever could.</p>
 
         <div class="notice-box">
           The event was rescheduled and it's happening <strong>tomorrow</strong>. I am asking, once again with all my love — please give me your blessing to attend. 🌸
@@ -317,8 +317,7 @@
           <li><span class="dot"></span> The venue is just in front of our house — I truly won't be far from you at all.</li>
           <li><span class="dot"></span> I'll keep you updated the whole time — you can call or message me anytime.</li>
           <li><span class="dot"></span> My phone stays on, always. No exceptions.</li>
-          <li><span class="dot"></span> I have nothing to hide. This is simply a celebration with familiar people.</li>
-          <li><span class="dot"></span> I will always, always prioritize coming home to you.</li>
+          <li><span class="dot"></span> I have nothing to hide. This is simply a celebration with SK, Directors and the Candidates.</li>
         </ul>
 
         <p>I'm not asking for endless nights out or secret plans. Just one evening, a short walk away, to be part of something joyful. And through it all, my heart stays right here — with you.</p>
@@ -329,7 +328,7 @@
       <div class="closing">
         <p>I love you so much, and I'm so grateful for every way you care for me. I just hope that this time, you'll find it in your heart to say yes.</p>
         <p style="margin-top: 0.75rem;">With every bit of my love,</p>
-        <div class="signature">Your girl ♡</div>
+        <div class="signature">Your gollum ♡</div>
       </div>
 
       <div class="action-row">
@@ -361,7 +360,7 @@
     function handleYes(e) {
       const toast = document.getElementById('toast');
       toast.className = 'toast success';
-      toast.innerHTML = '🎉 Yay!! He said yes! Have so much fun at the Victory party! 🌸';
+      toast.innerHTML = '🎉 Yay!! He said yes! Thank you so much lab! 🌸';
       toast.style.display = 'block';
       spawnHearts(e.clientX, e.clientY);
     }
@@ -370,11 +369,11 @@
       const dateText = document.getElementById('dateDisplay').textContent;
       const text = `${dateText}
 
-My dearest love,
+My dearest lab,
 
 I hope this reaches you in the sweetest mood, because I'm writing with a hopeful heart and the most sincere request.
 
-As you may remember, I was really looking forward to the Victory party — held just right in front of our house, at the nearby resort. I know you weren't comfortable with it the last time, and I truly respect that. Your feelings and your trust in me mean more than any party ever could.
+As you may remember, I was really looking forward to the Victory party — held just right in front of our house, at the nearby resort (Laresio). I know you weren't comfortable with it the last time, and I truly respect that. Your feelings and your trust in me mean more than any party ever could.
 
 The event was rescheduled and it's happening tomorrow. I am asking, once again with all my love — please give me your blessing to attend.
 
@@ -383,14 +382,13 @@ Why I hope you'll say yes:
 • I'll keep you updated the whole time — you can call or message me anytime.
 • My phone stays on, always. No exceptions.
 • I have nothing to hide. This is simply a celebration with familiar people.
-• I will always, always prioritize coming home to you.
 
 I'm not asking for endless nights out or secret plans. Just one evening, a short walk away, to be part of something joyful. And through it all, my heart stays right here — with you.
 
 I love you so much, and I'm so grateful for every way you care for me. I just hope that this time, you'll find it in your heart to say yes.
 
 With every bit of my love,
-Your girl ♡`;
+Your gollum ♡`;
 
       navigator.clipboard.writeText(text).then(() => {
         const toast = document.getElementById('toast');
